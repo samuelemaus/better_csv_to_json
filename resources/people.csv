@@ -1,0 +1,4 @@
+﻿Name,Age,Hair.Color,Hair.Length,"FavoriteFoods[,]",PhoneNumber(!),SSN(~)
+Sam,27,Blonde,Medium,"Tacos,Pizza,Beer",555-555-5555,123-45-6789
+PJ,6,Gray,Short,"Cat food, Ranch Dressing, Jimmy John's",,
+Rosemary,99,Blue,Long,,,

@@ -1,0 +1,43 @@
+﻿Unit,Class,Alt. Class,Alt.Condition {Default=SecondSeal},Spec. Alt(!),Spec.Alt Condition(!),Chapter Gained (D)(~),Chapter Gained (M)(~),Starting Level {Default=1},Skill (D),(D-desc)
+Nova,Lord,,,,,1,,3,Horsebreaker,Unit does 1.5x damage to Units Mounted to Horse.
+Cecil,Soldier,Knight,,,,1,,1,Spear Thrower,Allows Unit to Attack consecutively at Range when using 1-2 Range Lances
+Howard,Cavalier,Mercenary,,,,1,,1,Blessing,Increases luck stat by 4. Luck Cap and Luck Growth +10.
+Aya,Cavalier,Soldier,,,,1,,2,Hearty,"Increases base HP by 5, and HP Cap and HP Growth by 10."
+Leon,Guard,Sword Armor,,,,1,,4,Mountain Climber,Unit's movement is not impeded by Mountain terrain.  Peak impediment -1.
+Logan,Great Knight,Defender,,,,1,,2,Stalwart,"If Unit does not move during Turn, Def +6."
+Amber,Archer,Myrmidon,,,,1,,3,Courageous,Unit attacks consecutively if speed is greater than or equal to enemy's.
+Scott,Thief,Archer,,,,1,,4,Thrifty,User can buy items for 75% the typical buying-price.
+Boran,Fighter,Brigand,,,,1,,5,Agility,Increases Move stat by 1
+Jade,Troubador,Cleric,,,,1,,2,,
+Lehlen,Mage,Sorcerer,Terrarion,,,1,,1,Overkill,All excess damage upon killing an Enemy is added to experience gained.
+Aleister,Sorcerer,Mage,Draconion,,,1,,6,,
+Nero,Wyvern Rider,Mercenary,,,,2,,4,Heavy-Handed,Half of Weapon Weight is added to Weapon Might and 2x Weapon Weight is subtracted from Weapon Hit.
+Mullens,Armor Knight,Lance Knight,,,,2,,8,Slow-Paced,"Unit cannot be double-attacked, but also cannot double-attack (Negated by 'Brave' Weapon effect and Courageous+.)"
+Roddick,Axe Knight,Wyvern Rider,,,,2,,6,Aggression,"For each Enemy defeated by this Unit, Unit's Attack +2, Hit -4 (Limit 5)"
+Tyre,Lance Knight,Pegasus Knight,,,,2,,4,Equestrian,Unit's mounts lose stamina half as quickly.
+Estelle,Pegasus Mage,Mage,,,,2,,3,Reflexes,Grants +10 Avo when targeted by 1-2 Range physical weapons.
+Alexa,Myrmidon,Thief,,Sacaean,,2,,4,Technician,Unit can use consumable items without ending their turn (Cannot use Item command more than once).
+Rex,Adept,,,,,,,,Draconic axe,Unit's Draconic Magic is treated as an Axe in Weapon Triangle calculation.
+Colt,Archer,Nomad,,,,,,,Reflexes,Grants +10 Avo when targeted by 1-2 Range physical weapons.
+Sam,Mercenary,Cavalier,,,,,,,,
+Ann,Soldier,Cavalier,,,,,,,Spear Thrower,Allows Unit to Attack consecutively at Range when using 1-2 Range Lances
+Fabran,Justice,Warlock,,,,,,,,
+Carter,Sword Armor,Cavalier,,Pirate,Walk across some body of water somewhere,,,,Sea Legs,Unit's movement is not impeded by River terrain.  Sea impediment -1.
+Dean,Fighter,Brigand,,Sorcerer,,,,,,
+Holly,Troubador,Cleric,,,,,,,Anxious,"If this Unit is in an Enemy's Attack Range, Move +1"
+Hailey,Thief,,,,,,,,Wall Climber,Unit can scale a wall (single-tile sized) and move to the tile on the other side. Ends turn.
+Ren,Axe Knight,,,,,,,,,
+Warren,Cavalier,,,,,,,,,
+Minos,Guard,Soldier,,,,,,,Axe Thrower,Allows Unit to Attack consecutively at Range when using 1-2 Range Axes
+Reeve,Mercenary,,,,,,,,Peddler,User can sell items for 1.5x the typical selling-price
+Vivian,Pegasus Knight, ,,,,,,,,
+Zu,Swordmaster,Assassin,,,,,,,,
+Micah,Mage,Sorcerer,,,,,,,Apothecary,Unit can use healing items on adjacent units.
+Jessa,Nomad,Myrmidon,,,,,,,Equestrian,Unit's mounts lose stamina half as quickly.
+Quaid,Pirate,Mercenary,,,,,,,Dead eye,Increases base accuracy by 20 if units moves less than two spaces during turn
+M'rai,Sorcerer,,,,,,,,,
+Gerard,General,Great Knight,,,,,,,Capture,"If Unit's CON is at least 4 points greater than Target's, the Unit can ""Rescue"" the Target.  Rescue penalties are doubled."
+Peter,Lance Knight,Soldier,,,,,,,Specialist,Increases the effect of the weapon triangle both at advantage and disadvantage
+Calvin,Archer,,,,,,,,,
+Starla,Wyvern Sage,,,,,,,,,
+Nevan,Monk,Sorcerer,Lunarion,,,,,12,,
