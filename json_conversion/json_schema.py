@@ -1,107 +1,46 @@
-import json
-import jsonschema
 from enum import Enum
 
-OBJECT_KEY = "[:]"
-ARRAY_KEY = "[,]"
-IGNORE_IF_EMPTY_KEY = "(!)"
-IGNORE_ALWAYS_KEY = "(~)"
-DEFAULT_KEY = "{Default"
-OBJECT_DELIMITER = ":"
-ARRAY_DELIMITER = ","
+
+class ExclusionType(Enum):
+    NEVER_EXCLUDE = 0
+    EXCLUDE_IF_EMPTY = 1
+    ALWAYS_EXCLUDE = 2
 
 
-class JsonType(Enum):
-    INT = 0
-    OBJECT = 1
-    ARRAY = 2
-    STRING = 3
+EXCLUDE_ALWAYS_KEY = "always"
+EXCLUDE_IF_EMPTY_KEY = "ifempty"
+EXCLUDE_NEVER_KEY = "never"
 
-
-JSON_TYPE_CONVERSION_DICT = {
-    JsonType.INT: type(int),
-    JsonType.OBJECT: type(object),
-    JsonType.ARRAY: type([]),
-    JsonType.STRING: type(str)
+EXCLUSION_TYPE_DICT = {
+    EXCLUDE_IF_EMPTY_KEY: ExclusionType.EXCLUDE_IF_EMPTY,
+    EXCLUDE_ALWAYS_KEY: ExclusionType.ALWAYS_EXCLUDE,
+    EXCLUDE_NEVER_KEY: ExclusionType.NEVER_EXCLUDE
 }
 
 
-def get_type(value: str):
-    if value.isnumeric():
-        return JsonType.INT
-    if value.__contains__(OBJECT_KEY):
-        return JsonType.OBJECT
-    if value.__contains__(ARRAY_KEY):
-        return JsonType.ARRAY
-    return JsonType.STRING
+def get_exclusion_type(value: str):
+    return EXCLUSION_TYPE_DICT[value]
 
 
-def get_default_value(name: str, value):
-    if name.__contains__(DEFAULT_KEY):
-        trimmed_default = name.replace("{", "")
-        trimmed_default = trimmed_default.replace("}", "")
-        default_value = trimmed_default.split('=')[1]
-        return default_value
-    return None
-
-
-def get_json_value(name: str, value, json_type: JsonType):
-    default_value = get_default_value(name, value)
-    if default_value is not None:
-        return default_value
-
-
-def get_json_schema_element(name: str, value):
-    if name.endswith(IGNORE_ALWAYS_KEY):
-        return None
-    return JsonSchemaElement(name, value)
-
-
-def convert_value_to_type(value: str, json_type: JsonType):
-    _type: type = JSON_TYPE_CONVERSION_DICT.get(json_type)
-
-    if json_type == JsonType.ARRAY:
-        converted_value = []
-        split = value.split(ARRAY_DELIMITER)
-        i = 0
-        sub_type: JsonType = JsonType.OBJECT
-        for val in split:
-            if i == 0:
-                sub_type = get_type(val)
-
-            converted_entry_value = convert_value_to_type(val, sub_type)
-            converted_value.append(converted_entry_value)
-        return converted_value
-
-    if json_type == JsonType.OBJECT:
-        converted_value = {}
-        split = value.split(OBJECT_DELIMITER)
-        i = 0
-        sub_type: JsonType = JsonType.OBJECT
-        for val in split:
-            if i == 0:
-                sub_type = get_type(val)
-            converted_value_entry = convert_value_to_type(val, sub_type)
-
-    converted_value = _type(value)
-    return converted_value
+__DEFAULT_TYPE_VALUES__ = {
+    str: "",
+    float: 0,
+    bool: False
+}
 
 
 class JsonSchemaElement:
 
-    def __init__(self, name: str, value):
-        self.name = name
-        self.default_value = get_default_value(name, value)
-        if value == '' and self.default_value is not None:
-            value = self.default_value
+    def __init__(self, original_name: str, output_name: str):
+        self.original_name = original_name
+        self.output_name = output_name
 
-        self.object_type = get_type(value)
-        if self.default_value is not None:
-            self.default_value = convert_value_to_type(str(self.default_value), self.object_type)
-
-        self.ignore_if_empty = name.endswith(IGNORE_IF_EMPTY_KEY)
-
-    name: str
-    object_type: JsonType
+    original_name: str
+    output_name: str
+    object_type: type = None
+    exclusion_type: ExclusionType = ExclusionType.NEVER_EXCLUDE
+    ignore_object_delimiter: bool = False
+    preserve_case: bool = False
     default_value: object = None
-    ignore_if_empty: bool = False
+    is_array: bool = False
+    json_key: str = ""

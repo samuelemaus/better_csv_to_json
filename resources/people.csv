@@ -1,4 +1,5 @@
-﻿Name,Age,Hair.Color,Hair.Length,"FavoriteFoods[,]",PhoneNumber(!),SSN(~)
-Sam,27,Blonde,Medium,"Tacos,Pizza,Beer",555-555-5555,123-45-6789
-PJ,6,Gray,Short,"Cat food, Ranch Dressing, Jimmy John's",,
-Rosemary,99,Blue,Long,,,
+﻿Name{preserveCase=true},"Age {default=0,type=int}",Hair.Color.Name,Hair.Length,Hair.Color.Brightness,Hair.Color.Saturation,"FavoriteFoods[,]",PhoneNumber{exclude=ifempty},SSN{exclude=always}
+Sam,27,Blonde,Medium,1,10,"Tacos,Pizza,Beer",555-555-5555,123-45-6789
+PJ,6,Gray,Short,2,0,"Cat food, Ranch Dressing, Jimmy John's",,
+Rosemary,99,Blue,Long,3,50,,,
+Michelle,,,,,,,,

@@ -11,7 +11,7 @@ I've personally found a need for such a tool in the following situations:
 `better_csv_to_json` uses some simple syntax in the column-heading to determine how the resulting JSON data is created and formatted.
 
 If you have simple data and no need for nested objects, values to be represented as arrays, etc. Then there's not much you need to know.
-**That said, there is reserved syntax you may want to be aware of**. Most notably, column headings are period delimited to represent object-nesting. **This can be toggled off** by setting the `evaluateHeadingSyntax` value to false
+**That said, there is reserved syntax you may want to be aware of**. Most notably, column headings are period delimited to represent object-nesting. **This can be toggled off** by setting the `evaluate_heading_syntax` value to false
 
 ### Basics:
 
@@ -44,12 +44,12 @@ Below are each of the built-in properties usable inside curly braces which `bett
         ```    
     
 * `type`
-    * accepted values: `string`, `int`, `boolean`, `literal`
+    * accepted values: `string`, `num`, `bool`, `literal`
     * Explicitly determines the value that this column will be represented as in JSON.
     * If not explicitly declared, `better_csv_to_json` will infer based on the value in the first row.
     * **Examples**:
       1. 
-          * ExampleHeading: `Age` <- The type is not declared, but the value of `10` is interpreted by `better_csv_to_json` as an `int`.
+          * ExampleHeading: `Age` <- The type is not declared, but the value of `10` is interpreted by `better_csv_to_json` as a `num`.
           * ExampleValue: `10`  
             ```json
             {
@@ -65,7 +65,7 @@ Below are each of the built-in properties usable inside curly braces which `bett
             }
             ```
       3.  
-          * ExampleHeading: `Age{type=boolean}` <- This obviously doesn't make any sense, but the input value of `10` will still be converted to a `boolean`. In this case, it is `true` since the value is greater than `1`.
+          * ExampleHeading: `Age{type=bool}` <- This obviously doesn't make any sense, but the input value of `10` will still be converted to a `bool`. In this case, it is `true` since the value is greater than `1`.
           * ExampleValue: `10`
             ```json
             {
@@ -83,8 +83,6 @@ Below are each of the built-in properties usable inside curly braces which `bett
               } 
             }
             ```
-* `literalSchema`
-  
 * `exclude`
     * accepted values:
         * `always`  : column will be excluded entirely from resulting JSON.
@@ -110,7 +108,7 @@ Below are each of the built-in properties usable inside curly braces which `bett
               }
             ```  
         
-* `preserveCasing`
+* `preserveCase`
     * accepted values:
         * `true` : if set to true, `better_csv_to_json` will preserve the casing of the value.
         * `false` *(default)*: if set to false, `better_csv_to_json` will convert the values to the casing specified in the conversion parameters.
