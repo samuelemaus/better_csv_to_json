@@ -1,7 +1,7 @@
 import syntax_processing.syntax_constants as const
 from json_conversion.csv_loader import RawCSVData
 from json_conversion.json_creator import create_json_object
-from json_conversion.json_schema import JsonSchemaElement, __DEFAULT_TYPE_VALUES__
+from json_conversion.json_schema import JsonSchemaElement, DEFAULT_TYPE_VALUES, ExclusionType
 from syntax_processing import object_builder
 from utils import to_camel_case
 
@@ -24,7 +24,6 @@ def process_csv_headings(raw_csv_data: RawCSVData):
                     schema_element_args[element_property_name] = prop_value
 
         schema_element = _build_json_schema_element(heading, extracted_heading, first_row, schema_element_args)
-        # json_schema[extracted_heading] = schema_element
         elements.append(schema_element)
 
     json_schema = object_builder.build_json_schema_object_hierarchy(elements)
@@ -35,7 +34,8 @@ def process_csv_headings(raw_csv_data: RawCSVData):
 def build_elements_dict(elements):
     elements_dict = {}
     for element in elements:
-        elements_dict[element.original_name] = element
+        if element.exclusion_type != ExclusionType.ALWAYS_EXCLUDE:
+            elements_dict[element.original_name] = element
     return elements_dict
 
 
@@ -50,7 +50,7 @@ def _build_json_schema_element(original_heading, extracted_heading, first_row, s
         json_schema_element.object_type = _try_get_type_from_first_row(first_row[original_heading])
 
     if json_schema_element.default_value is None:
-        json_schema_element.default_value = __DEFAULT_TYPE_VALUES__[json_schema_element.object_type]
+        json_schema_element.default_value = DEFAULT_TYPE_VALUES[json_schema_element.object_type]
 
     return json_schema_element
 
@@ -61,7 +61,9 @@ def extract_heading_name(heading):
 
 def _try_get_type_from_first_row(first_row_value: str):
     if first_row_value.isnumeric():
-        return float
+        return float if '.' in first_row_value else int
+    if first_row_value.lower() == "true" or first_row_value.lower() == "false":
+        return bool
     return str
 
 
@@ -70,12 +72,12 @@ def process_properties(properties_substring: str):
     for key in properties.keys():
         value = properties[key]
         target_type = const.TYPE_PROPERTIES_DICT[key]
-        converted_value = _convert_property_to_target_type(target_type, key, value)
+        converted_value = _convert_property_to_target_type(target_type, value)
         properties[key] = converted_value
     return properties
 
 
-def _convert_property_to_target_type(target_type, key, value):
+def _convert_property_to_target_type(target_type, value):
     if target_type == object:
         return value
 

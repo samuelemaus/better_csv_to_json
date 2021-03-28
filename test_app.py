@@ -7,3 +7,4 @@ fileName1 = "resources/people.csv"
 
 data = data_converter.convert_data(data_converter.DataType.JSON, fileName1, None)
 
+print(data)

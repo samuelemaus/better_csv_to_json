@@ -22,9 +22,10 @@ def get_exclusion_type(value: str):
     return EXCLUSION_TYPE_DICT[value]
 
 
-__DEFAULT_TYPE_VALUES__ = {
+DEFAULT_TYPE_VALUES = {
     str: "",
-    float: 0,
+    int: 0,
+    float: 0.0,
     bool: False
 }
 

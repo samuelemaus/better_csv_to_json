@@ -1,8 +1,9 @@
 from collections import OrderedDict, defaultdict
 import syntax_processing.syntax_constants as const
 from json_conversion import json_schema
-from json_conversion.json_schema import ExclusionType
+from json_conversion.json_schema import ExclusionType, JsonSchemaElement
 from json_conversion.csv_loader import RawCSVData
+from syntax_processing.array_builder import build_array
 from utils import merge_dicts
 import json
 
@@ -18,10 +19,38 @@ def create_json_object(raw_csv_data: RawCSVData, final_json_schema, schema_eleme
     return final_output
 
 
-def populate_schema(row: OrderedDict, final_json_schema, schema_elements: {}):
+def populate_schema(row: OrderedDict, json_object: {}, schema_elements: {}):
     for key, value in row.items():
-        schema_element = schema_elements[key]
-        set_dict_value(final_json_schema, schema_element.output_name, value)
+        if key in schema_elements:
+            schema_element = schema_elements[key]
+
+            if schema_element.exclusion_type == ExclusionType.EXCLUDE_IF_EMPTY and value == "":
+                process_local_exclusion(json_object, schema_element)
+                continue
+
+            final_value = get_final_value(value, schema_element)
+            set_dict_value(json_object, schema_element.output_name, final_value)
+
+
+def process_local_exclusion(json_object: {}, schema_element: JsonSchemaElement):
+    if const.OBJECT_DELIMITER in schema_element.output_name:
+        split_locations = schema_element.output_name.split(const.OBJECT_DELIMITER)
+        nested = get_nested_dict(json_object, split_locations)
+        del nested[split_locations[(len(split_locations) - 1)]]
+        return
+
+    del json_object[schema_element.output_name]
+
+
+def get_final_value(value, schema_element: JsonSchemaElement):
+    if value == "":
+        return schema_element.default_value
+
+    if schema_element.is_array:
+        return build_array(value, schema_element.object_type)
+
+    converted = schema_element.object_type(value)
+    return converted
 
 
 def set_dict_value(target_dict: defaultdict, location: str, value):

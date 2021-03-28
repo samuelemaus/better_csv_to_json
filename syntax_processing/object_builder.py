@@ -1,21 +1,22 @@
 from collections import OrderedDict, deque, defaultdict
 
 import syntax_processing.syntax_constants as const
-from json_conversion.json_schema import JsonSchemaElement
+from json_conversion.json_schema import JsonSchemaElement, ExclusionType
 from utils import to_camel_case, merge_dicts
 
 
 def build_json_schema_object_hierarchy(schema_elements: []):
     final_schema = {}
     for element in schema_elements:
-        if (not element.ignore_object_delimiter) and const.OBJECT_DELIMITER in element.original_name:
-            delimited_heading: [] = element.original_name.split(const.OBJECT_DELIMITER)
-            update_element_output_name_with_object_delimiter(delimited_heading, element)
-            current_dict = defaultdict()
-            build(current_dict, delimited_heading, element)
-            merge_dicts(final_schema, current_dict)
+        if element.exclusion_type != ExclusionType.ALWAYS_EXCLUDE:
+            if (not element.ignore_object_delimiter) and const.OBJECT_DELIMITER in element.original_name:
+                delimited_heading: [] = element.original_name.split(const.OBJECT_DELIMITER)
+                update_element_output_name_with_object_delimiter(delimited_heading, element)
+                current_dict = defaultdict()
+                build(current_dict, delimited_heading, element)
+                merge_dicts(final_schema, current_dict)
+                continue
 
-        else:
             final_schema[element.output_name] = element.default_value
             element.json_key = element.output_name
 
@@ -41,5 +42,3 @@ def build(current_dict: defaultdict, headings: [], element: JsonSchemaElement):
         build(next_dict, sub_headings, element)
     else:
         current_dict[heading] = element.default_value
-
-

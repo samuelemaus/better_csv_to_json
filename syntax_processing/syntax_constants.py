@@ -25,7 +25,8 @@ JSON_SCHEMA_ELEMENT_PROPERTIES_DICT = {
 
 # type names
 STRING_TYPE = "string"
-NUM_TYPE = "int"
+INT_TYPE = "int"
+FLOAT_TYPE = "float"
 BOOLEAN_TYPE = "bool"
 LITERAL_TYPE = "literal"
 
@@ -44,12 +45,18 @@ TYPE_PROPERTIES_DICT = {
     PRESERVE_CASE_PROPERTY_KEY: bool,
     IGNORE_OBJECT_DELIMITER_PROPERTY_KEY: bool,
     STRING_TYPE: str,
-    NUM_TYPE: float,
+    INT_TYPE: int,
+    FLOAT_TYPE: float,
     BOOLEAN_TYPE: bool,
     LITERAL_TYPE: json
 }
 
+
+def __get_type__(value: str):
+    return TYPE_PROPERTIES_DICT[value]
+
+
 TYPE_CONSTRUCTORS_DICT = {
     ExclusionType: json_conversion.json_schema.get_exclusion_type,
+    type: __get_type__
 }
-
